@@ -1,1 +1,13 @@
 @import "tailwindcss";
+
+body {
+  font-family: var(--font-general), sans-serif;
+}
+
+@theme inline {
+  --font-general: var(--font-general);
+  --font-circular: var(--font-circular);
+  --font-robert-regular: var(--font-robert-regular);
+  --font-robert-medium: var(--font-robert-medium);
+  --font-zentry: var(--font-zentry);
+}
