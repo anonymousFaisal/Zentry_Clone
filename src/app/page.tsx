@@ -1,9 +1,9 @@
-export default function Home() {
+import Hero from "@/components/Hero";
+
+export default function Page() {
   return (
-    <main className="flex min-h-screen items-center justify-center bg-gray-900">
-      <h1 className="text-5xl font-bold text-[var(--color-yellow-100)]">
-        Tailwind is working 🎉
-      </h1>
+    <main className="relative min-h-screen w-screen overflow-x-hidden">
+      <Hero/>
     </main>
   );
 }
