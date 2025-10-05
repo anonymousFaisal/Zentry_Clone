@@ -4,10 +4,18 @@ body {
   font-family: var(--font-general), sans-serif;
 }
 
-@theme inline {
+@theme {
   --font-general: var(--font-general);
   --font-circular: var(--font-circular);
   --font-robert-regular: var(--font-robert-regular);
   --font-robert-medium: var(--font-robert-medium);
   --font-zentry: var(--font-zentry);
+  --color-blue-50: #DFDFF0;
+  --color-blue-75: #dfdff2;
+  --color-blue-100: #F0F2FA;
+  --color-blue-200: #010101;
+  --color-blue-300: #4FB7DD;
+  --color-violet-300: #5724ff;
+  --color-yellow-100: #8e983f;
+  --color-yellow-300: #edff66;
 }

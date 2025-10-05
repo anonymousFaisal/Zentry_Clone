@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import './globals.css';
-import type { ReactNode } from 'react';
 import localFont from 'next/font/local';
 
 const general = localFont({
