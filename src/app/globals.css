@@ -28,7 +28,7 @@ body {
 }
 
 @utility floating-nav {
-  @apply bg-black rounded-lg border; 
+  @apply bg-black rounded-lg border;
 }
 
 @utility absolute-center {
@@ -57,31 +57,19 @@ body {
 
 /* hero-heading base utility (you’ll still apply responsive modifiers in markup) */
 @utility hero-heading {
-  text-transform: uppercase;
-  font-family: var(--font-zentry);
-  font-weight: 900;
-  font-size: 3rem;
-  line-height: 1;
+  @apply uppercase font-zentry font-black text-5xl sm:right-10 sm:text-7xl md:text-9xl lg:text-[12rem];
 }
 
 /* animated-title */
 @utility animated-title {
-  display: flex;
-  flex-direction: column;
-  gap: 0.25rem;
-  text-transform: uppercase;
-  line-height: 0.8;
-  color: white;
+  @apply flex flex-col gap-1 text-7xl uppercase leading-[.8] text-white sm:px-32 md:text-[6rem];
 }
 
 /* animated-word (complex transform) */
 @utility animated-word {
-  /* include the special-font too if desired, or combine in markup */
-  font-family: var(--font-zentry);
-  font-weight: 900;
-  opacity: 0;
+  @apply special-font font-zentry font-black opacity-0;
   transform: translate3d(10px, 51px, -60px) rotateY(60deg) rotateX(-40deg);
-  transform-origin: 50% 50% -150px;
+  transform-origin: 50% 50% -150px !important;
   will-change: opacity, transform;
 }
 
@@ -234,8 +222,7 @@ body {
 .three-body__dot:nth-child(2)::after {
   bottom: 0;
   left: 0;
-  animation: wobble1 var(--uib-speed) infinite calc(var(--uib-speed) * -0.15)
-    ease-in-out;
+  animation: wobble1 var(--uib-speed) infinite calc(var(--uib-speed) * -0.15) ease-in-out;
 }
 .three-body__dot:nth-child(3) {
   bottom: -5%;
@@ -277,4 +264,3 @@ body {
     opacity: 0.8;
   }
 }
-
