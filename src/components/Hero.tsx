@@ -1,13 +1,47 @@
+"use client";
+import { useRef, useState } from "react";
+
 const Hero = () => {
+  const [currentIndex, setCurrentIndex] = useState<number>(1);
+  const [hasClicked, setHasClicked] = useState<boolean>(false);
+
+  const [loading, setLoading] = useState(true);
+  const [loadedVideos, setLoadedVideos] = useState<number>(0);
+
+  const totalVideos = 4;
+  const nextVideoRef = useRef(null);
+
+  const handleVideoLoaded = () => {
+    setLoadedVideos((prev) => prev + 1);
+  };
+
+  const handleMiniVideoClick = () => {
+    setHasClicked(true);
+    setCurrentIndex((prevIndex) => (prevIndex % totalVideos) + 1);
+  };
+
+  const getVideoSrc = (index: number) => `/videos/hero-${index}.mp4`;
+
   return (
     <div className="relative h-dvh w-screen overflow-x-hidden">
       <div id="video-frame" className="relative z-10 h-dvh w-screen overflow-hidden rounded-lg bg-(--color-blue-75)">
         <div>
-            <div className="mask-clip-path absolute-center absolute z-50 size-64 cursor-pointer overflow-hidden rounded-lg">
-                <div>
-                    Mini Video Player
-                </div>
+          <div className="mask-clip-path absolute-center absolute z-50 size-64 cursor-pointer overflow-hidden rounded-lg">
+            <div
+              onClick={handleMiniVideoClick}
+              className="origin-center scale-50 opacity-0 transition-all duration-500 ease-in hover:scale-100 hover:opacity-100"
+            >
+              <video
+                ref={nextVideoRef}
+                src={getVideoSrc((currentIndex % totalVideos) + 1)}
+                loop
+                muted
+                id="current-video"
+                className="size-64 origin-center scale-150 object-cover object-center"
+                onLoadedData={handleVideoLoaded}
+              />
             </div>
+          </div>
         </div>
       </div>
     </div>
