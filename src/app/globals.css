@@ -2,7 +2,7 @@
 
 @theme {
   --font-general: var(--font-general);
-  --font-circular: var(--font-circular);
+  --font-circular-web: var(--font-circular);
   --font-robert-regular: var(--font-robert-regular);
   --font-robert-medium: var(--font-robert-medium);
   --font-zentry: var(--font-zentry);
@@ -95,11 +95,10 @@ body {
   font-size: 2rem;
 }
 
-/* story image utilities (you may still keep some raw properties) */
+/* story image utilities */
 @utility story-img-container {
   position: relative;
   width: 100%;
-  /* for height you may set default or use utility in markup */
 }
 
 @utility story-img-mask {
@@ -114,6 +113,16 @@ body {
   position: absolute;
   width: 100%;
   transform: translate3d(0, 0, 0) rotateX(0) rotateY(0) rotateZ(0) scale(1);
+}
+
+/* about utilities */
+
+@utility about-subtext {
+  @apply absolute bottom-[-80dvh] left-1/2 w-full max-w-96 -translate-x-1/2 text-center font-circular-web text-lg md:max-w-[34rem];
+}
+
+@utility about-image {
+  @apply absolute left-1/2 top-0 z-20 h-[60vh] w-96 origin-center -translate-x-1/2 overflow-hidden rounded-3xl md:w-[30vw];
 }
 
 /* gallery utilities */
