@@ -6,11 +6,6 @@ import Image from "next/image";
 import BentoTilt from "./Bento/BentoTilt";
 import BentoCard from "./Bento/BentoCard";
 
-
-
-
-export 
-
 const Features: FC = () => (
   <section className="bg-black pb-52">
     <div className="container mx-auto px-3 md:px-10">

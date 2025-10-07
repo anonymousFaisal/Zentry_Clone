@@ -92,21 +92,17 @@ body {
 
 /* story image utilities */
 @utility story-img-container {
-  position: relative;
-  width: 100%;
+  @apply relative md:h-dvh h-[90vh] w-full;
+  filter: url("#flt_tag");
 }
 
 @utility story-img-mask {
-  position: absolute;
-  left: 0;
-  top: 0;
-  overflow: hidden;
+  @apply absolute left-0 top-0 size-full overflow-hidden md:left-[20%] md:top-[-10%] md:size-4/5;
   clip-path: polygon(4% 0, 83% 21%, 100% 73%, 0% 100%);
 }
 
 @utility story-img-content {
-  position: absolute;
-  width: 100%;
+  @apply absolute w-full md:h-dvh h-[50dvh] opacity-100 left-10 top-16 md:left-0 md:top-10 lg:left-[-300px] lg:top-[-100px];
   transform: translate3d(0, 0, 0) rotateX(0) rotateY(0) rotateZ(0) scale(1);
 }
 
@@ -122,22 +118,15 @@ body {
 
 /* gallery utilities */
 @utility gallery-img-container {
-  width: 16rem;
-  height: 16rem;
-  overflow: hidden;
+  @apply size-64 overflow-hidden bg-violet-300;
 }
 
-@utility gallery-img {
-  width: 100%;
-  height: 100%;
-  background-size: cover;
-  background-position: center;
+@utilitygallery-img {
+  @apply size-full bg-cover;
 }
 
 @utility gallery-img-4 {
-  width: 25rem;
-  height: 24rem;
-  border-radius: 0.5rem;
+  @apply sm:size-80 md:h-96 md:w-[25rem] rounded-lg;
 }
 
 /* clip-path utilities for shapes */
@@ -177,7 +166,7 @@ body {
   }
 }
 
-/* The Uiverse “three-body” styles are plain component CSS and remain unchanged */
+/* The Uiverse “three-body” styles */
 .three-body {
   --uib-size: 35px;
   --uib-speed: 0.8s;

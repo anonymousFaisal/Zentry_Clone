@@ -1,5 +1,7 @@
-import { useState, useRef, type FC, type ReactNode, type MouseEvent } from "react";
+"use client";
 
+import { useState, useRef, type FC, type ReactNode, type MouseEvent } from "react";
+import gsap from "gsap";
 
 interface BentoTiltProps {
   children: ReactNode;
@@ -7,7 +9,6 @@ interface BentoTiltProps {
 }
 
 const BentoTilt: FC<BentoTiltProps> = ({ children, className = "" }) => {
-  const [transformStyle, setTransformStyle] = useState("");
   const itemRef = useRef<HTMLDivElement | null>(null);
 
   const handleMouseMove = (event: MouseEvent<HTMLDivElement>) => {
@@ -21,12 +22,28 @@ const BentoTilt: FC<BentoTiltProps> = ({ children, className = "" }) => {
     const tiltX = (relativeY - 0.5) * 5;
     const tiltY = (relativeX - 0.5) * -5;
 
-    setTransformStyle(
-      `perspective(700px) rotateX(${tiltX}deg) rotateY(${tiltY}deg) scale3d(.95, .95, .95)`
-    );
+    // interrupt any running tween and set new transform
+    gsap.to(itemRef.current, {
+      rotateX: tiltX,
+      rotateY: tiltY,
+      scale: 0.95,
+      transformPerspective: 700,
+      duration: 0.18,
+      ease: "power2.out",
+    });
   };
 
-  const handleMouseLeave = () => setTransformStyle("");
+  const handleMouseLeave = () => {
+    if (!itemRef.current) return;
+
+    gsap.to(itemRef.current, {
+      rotateX: 0,
+      rotateY: 0,
+      scale: 1,
+      duration: 0.36,
+      ease: "power2.out",
+    });
+  };
 
   return (
     <div
@@ -34,7 +51,8 @@ const BentoTilt: FC<BentoTiltProps> = ({ children, className = "" }) => {
       className={className}
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
-      style={{ transform: transformStyle }}
+      // no inline transform state needed when using GSAP
+      style={{ transformStyle: "preserve-3d", willChange: "transform" }}
     >
       {children}
     </div>
