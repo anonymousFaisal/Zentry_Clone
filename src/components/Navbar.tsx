@@ -9,7 +9,7 @@ import { TiLocationArrow } from "react-icons/ti";
 
 import Button from "./Button";
 
-const navItems = ["Nexus", "Vault", "Prologue", "About", "Contact"];
+const navItems = ["About", "Features", "Contact"];
 
 const NavBar: FC = () => {
   const [isAudioPlaying, setIsAudioPlaying] = useState(false);
@@ -73,8 +73,8 @@ const NavBar: FC = () => {
         <nav className="flex size-full items-center justify-between p-4">
           {/* Logo and Product button */}
           <div className="flex items-center gap-7">
-            <div className="relative w-10 h-10">
-              <Image src="/img/logo.png" alt="logo" fill style={{ objectFit: "contain" }} priority />
+            <div className="relative w-13 h-13">
+              <Image src="/img/NHD-logo.png" alt="logo" fill style={{ objectFit: "contain" }} priority />
             </div>
 
             <Button

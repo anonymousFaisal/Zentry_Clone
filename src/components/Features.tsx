@@ -2,12 +2,11 @@
 
 import {type FC} from "react";
 import { TiLocationArrow } from "react-icons/ti";
-import Image from "next/image";
 import BentoTilt from "./Bento/BentoTilt";
 import BentoCard from "./Bento/BentoCard";
 
 const Features: FC = () => (
-  <section className="bg-black pb-52">
+  <section id="features" className="bg-black pb-52">
     <div className="container mx-auto px-3 md:px-10">
       <div className="px-5 py-32">
         <p className="font-circular-web text-lg text-blue-50">

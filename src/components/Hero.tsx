@@ -6,6 +6,7 @@ import Button from "./Button";
 import { TiLocationArrow } from "react-icons/ti";
 import { useGSAP } from "@gsap/react";
 import { VideoPreview } from "./VideoPreview";
+import Link from "next/link";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -24,7 +25,6 @@ const Hero = () => {
 
   const handleVideoLoad = () => {
     setLoadedVideos((prev) => prev + 1);
-    console.log(loadedVideos);
   };
 
   useEffect(() => {
@@ -90,7 +90,8 @@ const Hero = () => {
 
   return (
     <div className="relative h-dvh w-screen overflow-x-hidden">
-      {/*loading && (
+      {/* next js handles loading image and video with cache. So reloading breaks the code
+      loading && (
         <div className="flex-center absolute z-[100] h-dvh w-screen overflow-hidden bg-violet-50">
           <div className="three-body">
             <div className="three-body__dot"></div>
@@ -145,15 +146,15 @@ const Hero = () => {
         <h1 className="special-font hero-heading absolute bottom-5 right-5 z-40 text-blue-75">aNDnymous</h1>
         <div className="absolute left-0 top-0 z-40 size-full">
           <div className="mt-24 px-5 sm:px-10">
-            <h1 className="special-font hero-heading text-blue-100">
-              redefi<b>n</b>e
-            </h1>
+            <h1 className="special-font hero-heading text-blue-100">redefine</h1>
 
-            <p className="mb-5 max-w-64 font-robert-regular text-blue-100">
-              Enter the Metagame Layer <br /> Unleash the Play Economy
+            <p className="mb-5 max-w-80 font-robert-regular lg:text-lg text-blue-100">
+              A Basic Clone of the Zentry Website
+              <br /> Tried to learn how GSAP and Tailwind 4 works with Next.js 13
             </p>
-
-            <Button id="watch-trailer" title="Watch trailer" leftIcon={<TiLocationArrow />} containerClass="bg-yellow-300 flex-center gap-1" />
+            <Link href="https://zentry.com/" target="_blank" rel="noopener noreferrer">
+              <Button id="watch-trailer" title="Original Website" leftIcon={<TiLocationArrow />} containerClass="bg-yellow-300 flex-center gap-1" />
+            </Link>
           </div>
         </div>
       </div>
