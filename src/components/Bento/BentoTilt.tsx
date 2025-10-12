@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useRef, type FC, type ReactNode, type MouseEvent } from "react";
+import {useRef, type FC, type ReactNode, type MouseEvent } from "react";
 import gsap from "gsap";
 
 interface BentoTiltProps {
@@ -51,7 +51,6 @@ const BentoTilt: FC<BentoTiltProps> = ({ children, className = "" }) => {
       className={className}
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
-      // no inline transform state needed when using GSAP
       style={{ transformStyle: "preserve-3d", willChange: "transform" }}
     >
       {children}

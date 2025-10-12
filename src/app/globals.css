@@ -11,7 +11,7 @@
   --color-blue-100: #f0f2fa;
   --color-blue-200: #010101;
   --color-blue-300: #4fb7dd;
-  --color-violet-300: #5724ff;
+  --color-violet-300: #19007C;
   --color-yellow-100: #8e983f;
   --color-yellow-300: #edff66;
 }
@@ -48,18 +48,15 @@ body {
   align-items: center;
 }
 
-/* You can define mask-clip-path as a utility (pure property) */
 @utility mask-clip-path {
   clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
 }
 
-/* special-font: utility to apply your zentry font / feature settings */
 @utility special-font {
   font-family: var(--font-zentry);
   font-feature-settings: "ss01" on;
 }
 
-/* hero-heading base utility (you’ll still apply responsive modifiers in markup) */
 @utility hero-heading {
   @apply uppercase font-zentry font-black text-5xl sm:right-10 sm:text-7xl md:text-9xl lg:text-[12rem];
 }
@@ -109,7 +106,7 @@ body {
 /* about utilities */
 
 @utility about-subtext {
-  @apply absolute bottom-[-80dvh] left-1/2 w-full max-w-96 -translate-x-1/2 text-center font-circular-web text-lg md:max-w-[34rem];
+  @apply absolute bottom-[-85dvh] md:bottom-[-80dvh] left-1/2 w-full max-w-96 -translate-x-1/2 text-center font-circular-web text-lg md:max-w-[34rem];
 }
 
 @utility about-image {

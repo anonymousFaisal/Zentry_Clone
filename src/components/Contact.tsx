@@ -47,7 +47,7 @@ const Contact: FC = () => {
 
         {/* Center content */}
         <div className="flex flex-col items-center text-center">
-          <p className="mb-10 font-general text-[10px] uppercase">
+          <p className="mb-10 font-general text-[15px] uppercase">
             Join Zentry
           </p>
 
@@ -55,7 +55,6 @@ const Contact: FC = () => {
             title="let's b<b>u</b>ild the <br /> new era of <br /> g<b>a</b>ming t<b>o</b>gether."
             containerClass="special-font !md:text-[6.2rem] w-full font-zentry !text-5xl !font-black !leading-[.9]"
           />
-
           <Button title="contact us" containerClass="mt-10 cursor-pointer" />
         </div>
       </div>
