@@ -1,5 +1,5 @@
 import type { FC, ReactElement } from "react";
-import { FaDiscord, FaTwitter, FaYoutube, FaMedium, FaFacebook, FaLinkedin, FaInstagram } from "react-icons/fa";
+import { FaDiscord, FaTwitter, FaYoutube, FaMedium, FaFacebook, FaLinkedin, FaInstagram, FaGithub } from "react-icons/fa";
 
 interface SocialLink {
   href: string;
@@ -10,6 +10,7 @@ const socialLinks: SocialLink[] = [
   { href: "https://www.facebook.com/Anonymous.IamND", icon: <FaFacebook aria-hidden /> },
   { href: "https://www.linkedin.com/in/anonymous-nahid-hasan", icon: <FaLinkedin aria-hidden /> },
   { href: "https://www.instagram.com/nahid_hasan_nd/", icon: <FaInstagram aria-hidden /> },
+  { href: "https://github.com/anonymousFaisal", icon: <FaGithub aria-hidden /> },
 ];
 
 const Footer: FC = () => {
@@ -27,7 +28,7 @@ const Footer: FC = () => {
               href={link.href}
               target="_blank"
               rel="noopener noreferrer"
-              className="text-white transition-colors duration-500 ease-in-out hover:text-violet-300"
+              className="text-white text-xl transition-colors duration-500 ease-in-out hover:text-violet-300"
               aria-label={`Open ${new URL(link.href).hostname}`}
             >
               {link.icon}
