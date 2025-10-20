@@ -27,7 +27,7 @@ export const VideoPreview: FC<VideoPreviewProps> = ({ children }) => {
       y: yOffset,
       rotationY: xOffset / 2,
       rotationX: -yOffset / 2,
-      transformPerspective: 500,
+      transformPerspective: 600,
       duration: 1,
       ease: "power1.out",
     });
@@ -37,7 +37,7 @@ export const VideoPreview: FC<VideoPreviewProps> = ({ children }) => {
       x: -xOffset,
       y: -yOffset,
       duration: 1,
-      ease: "power1.out",
+      ease: "power2.out",
     });
   };
 
@@ -52,14 +52,14 @@ export const VideoPreview: FC<VideoPreviewProps> = ({ children }) => {
         rotationY: 0,
         rotationX: 0,
         duration: 1,
-        ease: "power1.out",
+        ease: "power2.out",
       });
 
       gsap.to(contentRef.current, {
         x: 0,
         y: 0,
         duration: 1,
-        ease: "power1.out",
+        ease: "power2.out",
       });
     }
   }, [isHovering]);
@@ -71,7 +71,7 @@ export const VideoPreview: FC<VideoPreviewProps> = ({ children }) => {
       onMouseEnter={() => setIsHovering(true)}
       onMouseLeave={() => setIsHovering(false)}
       className="absolute z-50 w-full h-full overflow-hidden rounded-lg"
-      style={{ perspective: "500px" }}
+      style={{ perspective: "600px" }}
     >
       <div
         ref={contentRef}
