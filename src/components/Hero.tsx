@@ -211,7 +211,7 @@ const Hero = () => {
 
             <p className="mb-5 max-w-80 font-robert-regular lg:text-lg text-blue-100">
               A Basic Clone of the Zentry Website
-              <br /> Tried to learn how GSAP and Tailwind 4 works with Next.js 13
+              <br /> Tried to learn how GSAP and Tailwind 4 works with Next.js 15
             </p>
             <Link href="https://zentry.com/" target="_blank" rel="noopener noreferrer">
               <Button id="watch-trailer" title="Original Website" leftIcon={<TiLocationArrow />} containerClass="bg-yellow-300 flex-center gap-1" />
