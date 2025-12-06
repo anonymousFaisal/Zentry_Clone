@@ -23,21 +23,22 @@ export const VideoPreview: FC<VideoPreviewProps> = ({ children }) => {
 
     // Animate container
     gsap.to(sectionRef.current, {
-      x: xOffset,
-      y: yOffset,
-      rotationY: xOffset / 2,
-      rotationX: -yOffset / 2,
+      x: xOffset / 5, // Dampened translation
+      y: yOffset / 5, // Dampened translation
+      rotationY: xOffset / 5, // Dampened rotation
+      rotationX: -yOffset / 5, // Dampened rotation
       transformPerspective: 600,
       duration: 1,
-      ease: "power1.out",
+      ease: "power3.out", // Smoother easing
+      scale: 1.02, // Subtle scale up
     });
 
     // Animate inner content in opposite direction
     gsap.to(contentRef.current, {
-      x: -xOffset,
-      y: -yOffset,
+      x: -xOffset / 5,
+      y: -yOffset / 5,
       duration: 1,
-      ease: "power2.out",
+      ease: "power3.out",
     });
   };
 
@@ -51,15 +52,16 @@ export const VideoPreview: FC<VideoPreviewProps> = ({ children }) => {
         y: 0,
         rotationY: 0,
         rotationX: 0,
+        scale: 1, // Reset scale
         duration: 1,
-        ease: "power2.out",
+        ease: "power3.out",
       });
 
       gsap.to(contentRef.current, {
         x: 0,
         y: 0,
         duration: 1,
-        ease: "power2.out",
+        ease: "power3.out",
       });
     }
   }, [isHovering]);
@@ -73,11 +75,7 @@ export const VideoPreview: FC<VideoPreviewProps> = ({ children }) => {
       className="absolute z-50 w-full h-full overflow-hidden rounded-lg"
       style={{ perspective: "600px" }}
     >
-      <div
-        ref={contentRef}
-        className="origin-center rounded-lg w-full h-full"
-        style={{ transformStyle: "preserve-3d" }}
-      >
+      <div ref={contentRef} className="origin-center rounded-lg w-full h-full" style={{ transformStyle: "preserve-3d" }}>
         {children}
       </div>
     </section>
