@@ -4,6 +4,7 @@ import { type FC, useRef, useEffect } from "react";
 import { TiLocationArrow } from "react-icons/ti";
 import BentoTilt from "./Bento/BentoTilt";
 import BentoCard from "./Bento/BentoCard";
+import EncryptionText from "./EncryptionText";
 
 const Features: FC = () => {
   const videoRef = useRef<HTMLVideoElement | null>(null);
@@ -34,7 +35,7 @@ const Features: FC = () => {
     <section id="features" className="bg-black pb-52">
       <div className="container mx-auto px-3 md:px-10">
         <div className="px-5 py-32">
-          <p className="font-circular-web text-lg text-blue-50 text-center md:text-left md:text-2xl">Into the Metagame Layer</p>
+          <EncryptionText text="Into the Metagame Layer" className="font-circular-web text-lg text-blue-50 text-center md:text-left md:text-2xl" />
           <p className="md:max-w-md font-circular-web text-lg text-blue-50 opacity-50 text-center md:text-left md:text-xl">
             Immerse yourself in a rich and ever-expanding universe where a vibrant array of products converge into an interconnected overlay
             experience on your world.
