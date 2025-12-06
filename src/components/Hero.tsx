@@ -6,7 +6,6 @@ import Button from "./Button";
 import { TiLocationArrow } from "react-icons/ti";
 import { useGSAP } from "@gsap/react";
 import { VideoPreview } from "./VideoPreview";
-import Link from "next/link";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -170,6 +169,7 @@ const Hero = () => {
                   src={getVideoSrc((currentIndex % totalVideos) + 1)}
                   loop
                   muted
+                  playsInline
                   id="mini-video"
                   className="size-64 origin-center scale-150 object-cover object-center"
                   onError={(e) => console.error("mini video error", e)}
@@ -184,6 +184,7 @@ const Hero = () => {
             src={getVideoSrc(currentIndex)}
             loop
             muted
+            playsInline
             id="next-video"
             className="absolute-center invisible absolute z-20 size-64 object-cover object-center"
             onError={(e) => console.error("next video error", e)}
@@ -213,9 +214,15 @@ const Hero = () => {
               A Basic Clone of the Zentry Website
               <br /> Tried to learn how GSAP and Tailwind 4 works with Next.js 15
             </p>
-            <Link href="https://zentry.com/" target="_blank" rel="noopener noreferrer">
-              <Button id="watch-trailer" title="Original Website" leftIcon={<TiLocationArrow />} containerClass="bg-yellow-300 flex-center gap-1" />
-            </Link>
+            <Button
+              id="watch-trailer"
+              title="Original Website"
+              leftIcon={<TiLocationArrow />}
+              containerClass="bg-yellow-300 flex-center gap-1"
+              href="https://zentry.com/"
+              target="_blank"
+              rel="noopener noreferrer"
+            />
           </div>
         </div>
       </div>
