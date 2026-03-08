@@ -143,18 +143,18 @@ const Hero = () => {
         </div>
 
         {/* Overflow wrappers prevent the GSAP animation from expanding the document height */}
-        <div className="absolute bottom-5 right-5 z-40 overflow-hidden">
-          <h1 className="special-font hero-heading text-blue-75 hero-text-reveal block">aNDnymous</h1>
+        <div className="absolute bottom-5 right-5 z-40 overflow-hidden perspective-midrange">
+          <h1 className="special-font hero-heading text-blue-75 hero-text-reveal block transform-style-3d origin-bottom">aNDnymous</h1>
         </div>
 
         <div id="hero-content" className="absolute left-0 top-0 z-40 size-full">
           <div className="mt-24 px-5 sm:px-10">
-            <div className="overflow-hidden">
-              <h1 className="special-font hero-heading text-blue-100 hero-text-reveal block">redefine</h1>
+            <div className="overflow-hidden perspective-midrange">
+              <h1 className="special-font hero-heading text-blue-100 hero-text-reveal block transform-style-3d origin-bottom">redefine</h1>
             </div>
 
             <div className="overflow-hidden">
-              <div className="hero-text-reveal block">
+              <div className="hero-subtext-reveal block">
                 <p className="mb-5 max-w-sm sm:max-w-md md:max-w-xl font-robert-regular text-sm lg:text-lg text-blue-100/80">
                   A recreation of the award-winning Zentry website.
                   <br /> Built with: Next.js 16, React 19, Tailwind v4, GSAP, and Lenis.
@@ -174,8 +174,8 @@ const Hero = () => {
         </div>
       </div>
 
-      <div className="absolute bottom-5 right-5 overflow-hidden">
-        <h1 className="special-font hero-heading text-black hero-text-reveal">aNDnymous</h1>
+      <div className="absolute bottom-5 right-5 overflow-hidden perspective-midrange">
+        <h1 className="special-font hero-heading text-black hero-text-reveal transform-style-3d origin-bottom">aNDnymous</h1>
       </div>
     </div>
   );

@@ -70,17 +70,45 @@ export const useHeroAnimations = ({ hasClicked, currentIndex, nextVideoRef, isLo
     if (isLoaded) {
       const tl = gsap.timeline();
 
-      // Translate percentage makes the animation responsive rather than hard-coded pixels
-      gsap.set(".hero-text-reveal", { yPercent: 120, opacity: 0 });
+      // Set initial 3D rotated state for HEADINGS
+      gsap.set(".hero-text-reveal", {
+        xPercent: 5,
+        yPercent: 30, // y offset instead of yPercent 120
+        z: -30,
+        rotationX: -20,
+        rotationY: 25,
+        transformOrigin: "50% 100% -50px",
+        opacity: 0,
+      });
 
+      // Set initial flat state for SUBTEXT
+      gsap.set(".hero-subtext-reveal", { yPercent: 100, opacity: 0 });
+
+      // Animate headings into flat, visible position
       tl.to(".hero-text-reveal", {
+        xPercent: 0,
         yPercent: 0,
+        z: 0,
+        rotationX: 0,
+        rotationY: 0,
         opacity: 1,
         duration: 1.2,
-        stagger: 0.15, // cascades the headings and subtext
-        ease: "power4.out",
-        delay: 1.2, // Explicitly wait for the curtain loader to completely slide away
+        stagger: 0.1,
+        ease: "power2.inOut",
+        delay: 1.2,
       });
+
+      // Animate subtext sliding up right after the headings start (position parameter `<0.4`)
+      tl.to(
+        ".hero-subtext-reveal",
+        {
+          yPercent: 0,
+          opacity: 1,
+          duration: 1.2,
+          ease: "power2.out",
+        },
+        "<0.4",
+      );
     }
   }, [isLoaded]);
 
