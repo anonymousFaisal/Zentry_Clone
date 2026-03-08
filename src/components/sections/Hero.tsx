@@ -106,9 +106,9 @@ const Hero = () => {
                   muted
                   playsInline
                   preload="metadata"
+                  disablePictureInPicture
                   id="mini-video"
                   className="size-64 origin-center scale-150 object-cover object-center"
-                  onError={(e) => console.error("mini video error", e)}
                 />
               </div>
             </VideoPreview>
@@ -122,9 +122,9 @@ const Hero = () => {
             muted
             playsInline
             preload="metadata"
+            disablePictureInPicture
             id="next-video"
             className="absolute-center invisible absolute z-20 size-64 object-cover object-center"
-            onError={(e) => console.error("next video error", e)}
           />
 
           {/* main/background video */}
@@ -136,9 +136,9 @@ const Hero = () => {
             muted
             playsInline
             preload="auto"
+            disablePictureInPicture
             id="main-video"
             className="absolute left-0 top-0 size-full object-cover object-center"
-            onError={(e) => console.error("current video error", e)}
           />
         </div>
 
@@ -155,9 +155,9 @@ const Hero = () => {
 
             <div className="overflow-hidden">
               <div className="hero-text-reveal block">
-                <p className="mb-5 max-w-96 font-robert-regular text-sm lg:text-lg text-blue-100/80">
-                  A recreation of the award-winning Zentry website,
-                  <br /> built with Next.js 16 · React 19 · Tailwind CSS v4 · GSAP · Lenis
+                <p className="mb-5 max-w-sm sm:max-w-md md:max-w-xl font-robert-regular text-sm lg:text-lg text-blue-100/80">
+                  A recreation of the award-winning Zentry website.
+                  <br /> Built with: Next.js 16, React 19, Tailwind v4, GSAP, and Lenis.
                 </p>
                 <Button
                   id="watch-trailer"
