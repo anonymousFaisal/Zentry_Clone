@@ -6,6 +6,7 @@ import Button from "@/components/ui/Button";
 import { TiLocationArrow } from "react-icons/ti";
 import { useGSAP } from "@gsap/react";
 import { VideoPreview } from "@/components/ui/VideoPreview";
+import Loader from "@/components/ui/Loader";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -26,11 +27,58 @@ const Hero = () => {
     setCurrentIndex((prevIndex) => (prevIndex % totalVideos) + 1);
   };
 
+  const waitForVideoReady = (video: HTMLVideoElement | null, timeoutMs = 10000) => {
+    return new Promise<void>((resolve) => {
+      // readyState 2 = HAVE_CURRENT_DATA (first frame)
+      if (!video || video.readyState >= 2) {
+        resolve();
+        return;
+      }
+
+      let finished = false;
+      const done = () => {
+        if (finished) return;
+        finished = true;
+        cleanup();
+        resolve();
+      };
+
+      const onLoadedData = () => done();
+      const onCanPlay = () => done();
+      const onError = () => done();
+
+      video.addEventListener("loadeddata", onLoadedData);
+      video.addEventListener("canplay", onCanPlay);
+      video.addEventListener("error", onError);
+
+      const timer = setTimeout(() => done(), timeoutMs);
+
+      const cleanup = () => {
+        clearTimeout(timer);
+        video.removeEventListener("loadeddata", onLoadedData);
+        video.removeEventListener("canplay", onCanPlay);
+        video.removeEventListener("error", onError);
+      };
+    });
+  };
+
   useEffect(() => {
-    // The strict loading promises have been removed to prevent blocking the UI
-    // while downloading heavy MP4 videos. Videos will stream natively immediately.
-    setLoading(false);
-  }, []);
+    let cancelled = false;
+
+    const streamVideo = async () => {
+      try {
+        await waitForVideoReady(currentVideoRef.current);
+      } finally {
+        if (!cancelled) setLoading(false);
+      }
+    };
+
+    streamVideo();
+
+    return () => {
+      cancelled = true;
+    };
+  }, [currentIndex]);
 
   useGSAP(
     () => {
@@ -85,16 +133,8 @@ const Hero = () => {
 
   return (
     <div id="home" className="relative h-dvh w-screen overflow-x-hidden">
-      {/* Loading overlay */}
-      {loading && (
-        <div className="flex-center absolute z-[100] h-dvh w-screen overflow-hidden bg-violet-50">
-          <div className="three-body">
-            <div className="three-body__dot"></div>
-            <div className="three-body__dot"></div>
-            <div className="three-body__dot"></div>
-          </div>
-        </div>
-      )}
+      {/* Premium loader with GSAP curtain-reveal exit */}
+      <Loader isLoaded={!loading} />
 
       <div id="video-frame" className="relative z-10 h-dvh w-screen overflow-hidden rounded-lg bg-blue-75">
         <div>
