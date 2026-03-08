@@ -32,6 +32,8 @@ const zentry = localFont({
   display: "swap",
 });
 
+import { LenisProvider } from "@/components/LenisProvider";
+
 export const metadata: Metadata = {
   title: "Zentry Clone",
   description: "Built with Next.js + Tailwind CSS",
@@ -41,8 +43,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   const htmlClass = `${general.variable} ${circular.variable} ${robertRegular.variable} ${robertMedium.variable} ${zentry.variable}`;
   return (
     <html lang="en" className={htmlClass}>
-      <body className= "antialiased">
-        {children}
+      <body className="antialiased">
+        <LenisProvider>{children}</LenisProvider>
       </body>
     </html>
   );
