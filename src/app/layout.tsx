@@ -32,7 +32,7 @@ const zentry = localFont({
   display: "swap",
 });
 
-import { LenisProvider } from "@/components/LenisProvider";
+import { LenisProvider } from "@/providers/LenisProvider";
 
 export const metadata: Metadata = {
   title: "Zentry Clone",

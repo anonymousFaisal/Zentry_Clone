@@ -1,10 +1,10 @@
 "use client";
 
-import ImageClipBox from "./Image/ImageClipBox";
+import ImageClipBox from "@/components/ui/Image/ImageClipBox";
 import type { FC } from "react";
-import AnimatedTitle from "./AnimatedTitle";
-import Button from "./Button";
-import BentoTilt from "./Bento/BentoTilt";
+import AnimatedTitle from "@/components/ui/AnimatedTitle";
+import Button from "@/components/ui/Button";
+import BentoTilt from "@/components/ui/Bento/BentoTilt";
 
 const Contact: FC = () => {
   return (

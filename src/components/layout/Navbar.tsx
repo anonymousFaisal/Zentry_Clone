@@ -7,7 +7,7 @@ import { useEffect, useRef, useState, type FC } from "react";
 import Image from "next/image";
 import { TiLocationArrow } from "react-icons/ti";
 
-import Button from "./Button";
+import Button from "@/components/ui/Button";
 
 const navItems = ["About", "Features", "Contact"];
 

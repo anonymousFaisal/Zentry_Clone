@@ -2,9 +2,9 @@
 
 import { type FC, useRef, useEffect } from "react";
 import { TiLocationArrow } from "react-icons/ti";
-import BentoTilt from "./Bento/BentoTilt";
-import BentoCard from "./Bento/BentoCard";
-import EncryptionText from "./EncryptionText";
+import BentoTilt from "@/components/ui/Bento/BentoTilt";
+import BentoCard from "@/components/ui/Bento/BentoCard";
+import EncryptionText from "@/components/ui/EncryptionText";
 
 const Features: FC = () => {
   const videoRef = useRef<HTMLVideoElement | null>(null);
@@ -23,7 +23,7 @@ const Features: FC = () => {
           }
         });
       },
-      { threshold: 0.5 }
+      { threshold: 0.5 },
     );
 
     observer.observe(video);

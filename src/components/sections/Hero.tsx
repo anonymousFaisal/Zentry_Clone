@@ -2,10 +2,10 @@
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/all";
 import { useEffect, useRef, useState } from "react";
-import Button from "./Button";
+import Button from "@/components/ui/Button";
 import { TiLocationArrow } from "react-icons/ti";
 import { useGSAP } from "@gsap/react";
-import { VideoPreview } from "./VideoPreview";
+import { VideoPreview } from "@/components/ui/VideoPreview";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -120,7 +120,7 @@ const Hero = () => {
     {
       dependencies: [currentIndex, hasClicked],
       revertOnUpdate: true,
-    }
+    },
   );
   useGSAP(() => {
     gsap.set("#video-frame", {

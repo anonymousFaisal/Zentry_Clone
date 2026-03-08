@@ -4,8 +4,8 @@ import gsap from "gsap";
 import { useRef, type FC } from "react";
 import Image from "next/image";
 
-import Button from "./Button";
-import AnimatedTitle from "./AnimatedTitle";
+import Button from "@/components/ui/Button";
+import AnimatedTitle from "@/components/ui/AnimatedTitle";
 
 const Story: FC = () => {
   const frameRef = useRef<HTMLImageElement | null>(null);
@@ -93,9 +93,7 @@ const Story: FC = () => {
         <div className="-mt-80 md:mr-20 flex w-full justify-center md:-mt-64 md:me-44 md:justify-end">
           <div className="flex h-full w-fit flex-col items-center md:items-start">
             <p className="mt-3 max-w-sm text-center md:text-lg font-circular-web text-violet-50 md:text-start">
-              Where realms converge, lies Zentry and the boundless pillar.
-              Discover its secrets and shape your fate amidst infinite
-              opportunities.
+              Where realms converge, lies Zentry and the boundless pillar. Discover its secrets and shape your fate amidst infinite opportunities.
             </p>
 
             <Button id="realm-btn" title="discover prologue" containerClass="mt-5" />
