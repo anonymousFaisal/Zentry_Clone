@@ -163,4 +163,19 @@ body {
   }
 }
 
-/* The Uiverse “three-body” styles */
+/* Scroll indicator bounce animation */
+.scroll-dot-bounce {
+  animation: scrollDotBounce 1.5s ease-in-out infinite;
+}
+
+@keyframes scrollDotBounce {
+  0%,
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+  50% {
+    transform: translateY(10px);
+    opacity: 0.3;
+  }
+}

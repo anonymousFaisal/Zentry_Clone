@@ -1,14 +1,10 @@
 "use client";
-import gsap from "gsap";
-import { ScrollTrigger } from "gsap/all";
 import { useEffect, useRef, useState } from "react";
 import Button from "@/components/ui/Button";
 import { TiLocationArrow } from "react-icons/ti";
-import { useGSAP } from "@gsap/react";
 import { VideoPreview } from "@/components/ui/VideoPreview";
 import Loader from "@/components/ui/Loader";
-
-gsap.registerPlugin(ScrollTrigger);
+import { useHeroAnimations } from "@/hooks/useHeroAnimations";
 
 const totalVideos = 4;
 
@@ -80,53 +76,11 @@ const Hero = () => {
     };
   }, [currentIndex]);
 
-  useGSAP(
-    () => {
-      if (hasClicked) {
-        gsap.set("#next-video", { visibility: "visible" });
-        gsap.to("#next-video", {
-          transformOrigin: "center center",
-          scale: 1,
-          width: "100%",
-          height: "100%",
-          duration: 0.75,
-          ease: "power1.inOut",
-          onStart: () => {
-            if (nextVideoRef.current) {
-              const p = nextVideoRef.current.play();
-              if (p && typeof p.catch === "function") p.catch(() => {});
-            }
-          },
-        });
-        gsap.from("#main-video", {
-          transformOrigin: "center center",
-          scale: 0,
-          duration: 1.5,
-          ease: "power1.inOut",
-        });
-      }
-    },
-    {
-      dependencies: [currentIndex, hasClicked],
-      revertOnUpdate: true,
-    },
-  );
-  useGSAP(() => {
-    gsap.set("#video-frame", {
-      clipPath: "polygon(14% 0, 72% 0, 88% 90%, 0 95%)",
-      borderRadius: "0% 0% 40% 10%",
-    });
-    gsap.from("#video-frame", {
-      clipPath: "polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%)",
-      borderRadius: "0% 0% 0% 0%",
-      ease: "power1.inOut",
-      scrollTrigger: {
-        trigger: "#video-frame",
-        start: "center center",
-        end: "bottom center",
-        scrub: true,
-      },
-    });
+  useHeroAnimations({
+    hasClicked,
+    currentIndex,
+    nextVideoRef,
+    isLoaded: !loading,
   });
 
   const getVideoSrc = (index: number) => `/videos/hero-${index}`;
@@ -188,30 +142,41 @@ const Hero = () => {
           />
         </div>
 
-        <h1 className="special-font hero-heading absolute bottom-5 right-5 z-40 text-blue-75">aNDnymous</h1>
+        {/* Overflow wrappers prevent the GSAP animation from expanding the document height */}
+        <div className="absolute bottom-5 right-5 z-40 overflow-hidden">
+          <h1 className="special-font hero-heading text-blue-75 hero-text-reveal block">aNDnymous</h1>
+        </div>
 
-        <div className="absolute left-0 top-0 z-40 size-full">
+        <div id="hero-content" className="absolute left-0 top-0 z-40 size-full">
           <div className="mt-24 px-5 sm:px-10">
-            <h1 className="special-font hero-heading text-blue-100">redefine</h1>
+            <div className="overflow-hidden">
+              <h1 className="special-font hero-heading text-blue-100 hero-text-reveal block">redefine</h1>
+            </div>
 
-            <p className="mb-5 max-w-80 font-robert-regular lg:text-lg text-blue-100">
-              A Basic Clone of the Zentry Website
-              <br /> Tried to learn how GSAP and Tailwind 4 works with Next.js 15
-            </p>
-            <Button
-              id="watch-trailer"
-              title="Original Website"
-              leftIcon={<TiLocationArrow />}
-              containerClass="bg-yellow-300 flex-center gap-1"
-              href="https://zentry.com/"
-              target="_blank"
-              rel="noopener noreferrer"
-            />
+            <div className="overflow-hidden">
+              <div className="hero-text-reveal block">
+                <p className="mb-5 max-w-96 font-robert-regular text-sm lg:text-lg text-blue-100/80">
+                  A recreation of the award-winning Zentry website,
+                  <br /> built with Next.js 16 · React 19 · Tailwind CSS v4 · GSAP · Lenis
+                </p>
+                <Button
+                  id="watch-trailer"
+                  title="Original Website"
+                  leftIcon={<TiLocationArrow />}
+                  containerClass="bg-yellow-300 flex-center gap-1"
+                  href="https://zentry.com/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                />
+              </div>
+            </div>
           </div>
         </div>
       </div>
 
-      <h1 className="special-font hero-heading absolute bottom-5 right-5 text-black">aNDnymous</h1>
+      <div className="absolute bottom-5 right-5 overflow-hidden">
+        <h1 className="special-font hero-heading text-black hero-text-reveal">aNDnymous</h1>
+      </div>
     </div>
   );
 };
