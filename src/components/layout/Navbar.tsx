@@ -2,14 +2,16 @@
 
 import clsx from "clsx";
 import gsap from "gsap";
+import { useGSAP } from "@gsap/react";
 import { useWindowScroll } from "react-use";
+import { useLenis } from "lenis/react";
 import { useEffect, useRef, useState, type FC } from "react";
 import Image from "next/image";
 import { TiLocationArrow } from "react-icons/ti";
 
 import Button from "@/components/ui/Button";
 
-const navItems = ["About", "Features", "Contact"];
+const navItems = ["Home", "About", "Features", "Contact"];
 
 const NavBar: FC = () => {
   const [isAudioPlaying, setIsAudioPlaying] = useState(false);
@@ -40,6 +42,15 @@ const NavBar: FC = () => {
     setIsIndicatorActive((prev) => !prev);
   };
 
+  const lenis = useLenis();
+
+  const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, targetId: string) => {
+    e.preventDefault();
+    if (lenis) {
+      lenis.scrollTo(targetId, { duration: 1.2, easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)) });
+    }
+  };
+
   useEffect(() => {
     if (!navContainerRef.current) return;
 
@@ -57,7 +68,7 @@ const NavBar: FC = () => {
     setLastScrollY(currentScrollY);
   }, [currentScrollY, lastScrollY]);
 
-  useEffect(() => {
+  useGSAP(() => {
     if (!navContainerRef.current) return;
 
     gsap.to(navContainerRef.current, {
@@ -73,9 +84,7 @@ const NavBar: FC = () => {
         <nav className="flex size-full items-center justify-between p-4">
           {/* Logo and Product button */}
           <div className="flex items-center gap-7">
-            <div className="relative w-13 h-13">
-              <Image src="/img/NHD-logo.png" alt="logo" fill style={{ objectFit: "contain" }} priority />
-            </div>
+            <Image src="/img/NHD-logo.png" alt="logo" width={52} height={52} className="w-13 h-13 object-contain" priority />
 
             <Button
               id="product-button"
@@ -89,13 +98,13 @@ const NavBar: FC = () => {
           <div className="flex h-full items-center">
             <div className="hidden md:block">
               {navItems.map((item, index) => (
-                <a key={index} href={`#${item.toLowerCase()}`} className="nav-hover-btn">
+                <a key={index} href={`#${item.toLowerCase()}`} onClick={(e) => handleNavClick(e, `#${item.toLowerCase()}`)} className="nav-hover-btn">
                   {item}
                 </a>
               ))}
             </div>
 
-            <button onClick={toggleAudioIndicator} className="ml-10 flex items-center space-x-0.5">
+            <button onClick={toggleAudioIndicator} className="ml-10 flex items-center space-x-0.5" aria-label="Toggle audio">
               <audio ref={audioElementRef} className="hidden" src="/audio/loop.mp3" loop preload="auto" />
               {[1, 2, 3, 4].map((bar) => (
                 <div
