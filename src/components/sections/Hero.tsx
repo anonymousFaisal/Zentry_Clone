@@ -14,7 +14,6 @@ const totalVideos = 4;
 const Hero = () => {
   const [currentIndex, setCurrentIndex] = useState<number>(1);
   const [hasClicked, setHasClicked] = useState<boolean>(false);
-
   const [loading, setLoading] = useState(true);
 
   // refs for the three videos
@@ -27,69 +26,11 @@ const Hero = () => {
     setCurrentIndex((prevIndex) => (prevIndex % totalVideos) + 1);
   };
 
-  // Wait helper: resolves when video is ready, or when an event fires, or after timeout
-  const waitForVideoReady = (video: HTMLVideoElement | null, timeoutMs = 5000) => {
-    return new Promise<void>((resolve) => {
-      if (!video) {
-        // If a video is absent, consider it "ready" (don't hang)
-        resolve();
-        return;
-      }
-
-      // If already in a decent readyState, resolve immediately.
-      if (video.readyState >= 3) {
-        resolve();
-        return;
-      }
-
-      let finished = false;
-      const done = () => {
-        if (finished) return;
-        finished = true;
-        cleanup();
-        resolve();
-      };
-
-      const onLoadedData = () => done();
-      const onCanPlayThrough = () => done();
-      const onError = () => done();
-
-      video.addEventListener("loadeddata", onLoadedData);
-      video.addEventListener("canplaythrough", onCanPlayThrough);
-      video.addEventListener("error", onError);
-
-      const timer = setTimeout(() => {
-        done();
-      }, timeoutMs);
-
-      const cleanup = () => {
-        clearTimeout(timer);
-        video.removeEventListener("loadeddata", onLoadedData);
-        video.removeEventListener("canplaythrough", onCanPlayThrough);
-        video.removeEventListener("error", onError);
-      };
-    });
-  };
-
-  // Run once on mount
   useEffect(() => {
-    let cancelled = false;
-    (async () => {
-      try {
-        await Promise.all([
-          waitForVideoReady(miniVideoRef.current),
-          waitForVideoReady(nextVideoRef.current),
-          waitForVideoReady(currentVideoRef.current),
-        ]);
-      } finally {
-        if (!cancelled) setLoading(false);
-      }
-    })();
-
-    return () => {
-      cancelled = true;
-    };
-  }, [currentIndex]);
+    // The strict loading promises have been removed to prevent blocking the UI
+    // while downloading heavy MP4 videos. Videos will stream natively immediately.
+    setLoading(false);
+  }, []);
 
   useGSAP(
     () => {
@@ -140,7 +81,7 @@ const Hero = () => {
     });
   });
 
-  const getVideoSrc = (index: number) => `/videos/hero-${index}.mp4`;
+  const getVideoSrc = (index: number) => `/videos/hero-${index}`;
 
   return (
     <div id="home" className="relative h-dvh w-screen overflow-x-hidden">
@@ -166,10 +107,11 @@ const Hero = () => {
                 {/* mini video */}
                 <video
                   ref={miniVideoRef}
-                  src={getVideoSrc((currentIndex % totalVideos) + 1)}
+                  src={`${getVideoSrc((currentIndex % totalVideos) + 1)}.webm`}
                   loop
                   muted
                   playsInline
+                  preload="metadata"
                   id="mini-video"
                   className="size-64 origin-center scale-150 object-cover object-center"
                   onError={(e) => console.error("mini video error", e)}
@@ -181,10 +123,11 @@ const Hero = () => {
           {/* next video */}
           <video
             ref={nextVideoRef}
-            src={getVideoSrc(currentIndex)}
+            src={`${getVideoSrc(currentIndex)}.webm`}
             loop
             muted
             playsInline
+            preload="metadata"
             id="next-video"
             className="absolute-center invisible absolute z-20 size-64 object-cover object-center"
             onError={(e) => console.error("next video error", e)}
@@ -193,11 +136,12 @@ const Hero = () => {
           {/* main/background video */}
           <video
             ref={currentVideoRef}
-            src={getVideoSrc(currentIndex === totalVideos - 1 ? 1 : currentIndex)}
+            src={`${getVideoSrc(currentIndex === totalVideos - 1 ? 1 : currentIndex)}.webm`}
             autoPlay
             loop
             muted
             playsInline
+            preload="auto"
             id="main-video"
             className="absolute left-0 top-0 size-full object-cover object-center"
             onError={(e) => console.error("current video error", e)}
