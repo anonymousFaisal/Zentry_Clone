@@ -17,6 +17,7 @@ export const useAboutAnimations = () => {
         scrub: 0.5,
         pin: true,
         pinSpacing: true,
+        anticipatePin: 1, // Reduces jitter right as the pin engages
       },
     });
 
@@ -24,6 +25,7 @@ export const useAboutAnimations = () => {
       width: "100vw",
       height: "100vh",
       borderRadius: 0,
+      ease: "power1.inOut",
     });
 
     // 2. Intro text fade-up animations
@@ -32,6 +34,7 @@ export const useAboutAnimations = () => {
       opacity: 0,
       duration: 1,
       ease: "power3.out",
+      force3D: true, // Hardware acceleration for text translation
       scrollTrigger: {
         trigger: "#about",
         start: "top 80%",
@@ -45,6 +48,7 @@ export const useAboutAnimations = () => {
       duration: 1,
       delay: 0.2, // Play slightly after the initial intro text
       ease: "power3.out",
+      force3D: true,
       scrollTrigger: {
         trigger: "#about",
         start: "top 60%",
