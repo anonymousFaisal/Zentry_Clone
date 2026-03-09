@@ -6,9 +6,12 @@ import Image from "next/image";
 
 import Button from "@/components/ui/Button";
 import AnimatedTitle from "@/components/ui/AnimatedTitle";
+import { useStoryAnimations } from "@/hooks/useStoryAnimations";
 
 const Story: FC = () => {
   const frameRef = useRef<HTMLImageElement | null>(null);
+
+  useStoryAnimations();
 
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
     const { clientX, clientY } = e;
@@ -23,15 +26,16 @@ const Story: FC = () => {
     const centerX = rect.width / 2;
     const centerY = rect.height / 2;
 
-    const rotateX = ((yPos - centerY) / centerY) * -10;
-    const rotateY = ((xPos - centerX) / centerX) * 10;
+    // Tighter bounds and smoother feel
+    const rotateX = ((yPos - centerY) / centerY) * -15; // Increased slightly for more tactility
+    const rotateY = ((xPos - centerX) / centerX) * 15;
 
     gsap.to(element, {
-      duration: 0.3,
+      duration: 0.5, // slightly longer duration to smooth out the tracking
       rotateX,
       rotateY,
-      transformPerspective: 500,
-      ease: "power1.out",
+      transformPerspective: 1000, // Deeper perspective for a premium glass feel
+      ease: "power2.out", // Smoother easing curve
     });
   };
 
@@ -40,10 +44,10 @@ const Story: FC = () => {
 
     if (element) {
       gsap.to(element, {
-        duration: 0.3,
+        duration: 0.8, // Slow, elegant return to center
         rotateX: 0,
         rotateY: 0,
-        ease: "power1.out",
+        ease: "power3.out", // Luxurious smooth stop
       });
     }
   };
@@ -51,7 +55,7 @@ const Story: FC = () => {
   return (
     <div id="story" className="min-h-dvh w-screen bg-black text-blue-50">
       <div className="flex size-full flex-col items-center py-10 pb-24">
-        <p className="font-general text-sm uppercase md:text-[15px]">the multiversal ip world</p>
+        <p className="font-general text-sm uppercase md:text-[15px] story-subtitle">the multiversal ip world</p>
 
         <div className="relative size-full">
           <AnimatedTitle
@@ -90,13 +94,15 @@ const Story: FC = () => {
           </div>
         </div>
 
-        <div className="-mt-80 md:mr-20 flex w-full justify-center md:-mt-64 md:me-44 md:justify-end">
-          <div className="flex h-full w-fit flex-col items-center md:items-start">
-            <p className="mt-3 max-w-sm text-center md:text-lg font-circular-web text-violet-50 md:text-start">
+        <div className="-mt-80 flex w-full justify-center md:-mt-64 md:me-44 md:justify-end">
+          <div className="flex h-full w-fit flex-col items-center md:items-end">
+            <p className="mt-3 max-w-sm text-center md:text-lg font-circular-web text-violet-50 md:text-right story-content-reveal">
               Where realms converge, lies Zentry and the boundless pillar. Discover its secrets and shape your fate amidst infinite opportunities.
             </p>
 
-            <Button id="realm-btn" title="discover prologue" containerClass="mt-5" />
+            <div className="story-content-reveal">
+              <Button id="realm-btn" title="discover prologue" containerClass="mt-5" />
+            </div>
           </div>
         </div>
       </div>
