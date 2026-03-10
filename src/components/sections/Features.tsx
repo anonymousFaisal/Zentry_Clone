@@ -9,20 +9,45 @@ import { useFeatureAnimations } from "@/hooks/useFeatureAnimations";
 
 const Features: FC = () => {
   const videoRef = useRef<HTMLVideoElement | null>(null);
+  const feature5Ref = useRef<HTMLDivElement | null>(null);
 
   useFeatureAnimations({ videoRef });
+
+  // Lazy-load feature-5 standalone video with IntersectionObserver
+  useEffect(() => {
+    const video = videoRef.current;
+    const container = feature5Ref.current;
+    if (!video || !container) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          video.preload = "metadata";
+          video.load();
+          const p = video.play();
+          if (p && typeof p.catch === "function") p.catch(() => {});
+        } else {
+          video.pause();
+        }
+      },
+      { rootMargin: "200px" },
+    );
+
+    observer.observe(container);
+    return () => observer.disconnect();
+  }, []);
 
   return (
     <section id="features" className="bg-black pb-52">
       <div className="container mx-auto px-3 md:px-10">
         <div className="px-5 py-32">
           <AnimatedTitle title="Int<b>o</b> the <br /> Metagame Layer" containerClass="!text-blue-50 !bg-transparent md:!text-left !px-0 !sm:px-0" />
-          
         </div>
 
         <BentoTilt className="border-hsla bento-card-reveal relative mb-7 h-96 w-full overflow-hidden rounded-md md:h-[65vh]">
           <BentoCard
-            src="videos/feature-1.webm"
+            src="videos/feature-1"
+            poster="/img/posters/feature-1.webp"
             title={
               <>
                 radia<b>n</b>t
@@ -36,7 +61,8 @@ const Features: FC = () => {
         <div className="grid h-[135vh] w-full grid-cols-2 grid-rows-3 gap-7">
           <BentoTilt className="bento-tilt_1 bento-card-reveal row-span-1 md:col-span-1 md:row-span-2">
             <BentoCard
-              src="videos/feature-2.webm"
+              src="videos/feature-2"
+              poster="/img/posters/feature-2.webp"
               title={
                 <>
                   zig<b>m</b>a
@@ -49,7 +75,8 @@ const Features: FC = () => {
 
           <BentoTilt className="bento-tilt_1 bento-card-reveal row-span-1 ms-32 md:col-span-1 md:ms-0">
             <BentoCard
-              src="videos/feature-3.webm"
+              src="videos/feature-3"
+              poster="/img/posters/feature-3.webp"
               title={
                 <>
                   n<b>e</b>xus
@@ -62,7 +89,8 @@ const Features: FC = () => {
 
           <BentoTilt className="bento-tilt_1 bento-card-reveal me-14 md:col-span-1 md:me-0">
             <BentoCard
-              src="videos/feature-4.webm"
+              src="videos/feature-4"
+              poster="/img/posters/feature-4.webp"
               title={
                 <>
                   az<b>u</b>l
@@ -84,16 +112,21 @@ const Features: FC = () => {
           </BentoTilt>
 
           <BentoTilt className="bento-tilt_2 bento-card-reveal">
-            <video
-              ref={videoRef}
-              src="videos/feature-5.webm"
-              loop
-              muted
-              playsInline
-              disablePictureInPicture
-              preload="none"
-              className="w-full h-full object-cover object-center"
-            />
+            <div ref={feature5Ref} className="w-full h-full">
+              <video
+                ref={videoRef}
+                poster="/img/posters/feature-5.webp"
+                loop
+                muted
+                playsInline
+                disablePictureInPicture
+                preload="none"
+                className="w-full h-full object-cover object-center"
+              >
+                <source src="videos/feature-5.webm" type="video/webm" />
+                <source src="videos/feature-5.mp4" type="video/mp4" />
+              </video>
+            </div>
           </BentoTilt>
         </div>
       </div>

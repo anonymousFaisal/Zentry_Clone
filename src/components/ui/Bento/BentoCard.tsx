@@ -1,20 +1,22 @@
 "use client";
 
-import { useState, useRef, type FC, type ReactNode, type MouseEvent } from "react";
+import { useState, useRef, useEffect, type FC, type ReactNode, type MouseEvent } from "react";
 import { TiLocationArrow } from "react-icons/ti";
 
 interface BentoCardProps {
-  src: string;
+  src: string; // base path without extension, e.g. "videos/feature-1"
   title: ReactNode;
   description?: string;
   isComingSoon?: boolean;
+  poster?: string; // poster image path
 }
 
-const BentoCard: FC<BentoCardProps> = ({ src, title, description, isComingSoon }) => {
+const BentoCard: FC<BentoCardProps> = ({ src, title, description, isComingSoon, poster }) => {
   const [cursorPosition, setCursorPosition] = useState({ x: 0, y: 0 });
   const [hoverOpacity, setHoverOpacity] = useState(0);
   const hoverButtonRef = useRef<HTMLDivElement | null>(null);
   const videoRef = useRef<HTMLVideoElement | null>(null);
+  const cardRef = useRef<HTMLDivElement | null>(null);
 
   const handleMouseMove = (event: MouseEvent<HTMLDivElement>) => {
     if (!hoverButtonRef.current) return;
@@ -28,18 +30,50 @@ const BentoCard: FC<BentoCardProps> = ({ src, title, description, isComingSoon }
   const handleMouseEnter = () => setHoverOpacity(1);
   const handleMouseLeave = () => setHoverOpacity(0);
 
+  // Lazy load: only load/play video when it enters the viewport
+  useEffect(() => {
+    const video = videoRef.current;
+    const card = cardRef.current;
+    if (!video || !card) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          // Start loading and playing
+          video.preload = "metadata";
+          video.load();
+          const p = video.play();
+          if (p && typeof p.catch === "function") p.catch(() => {});
+        } else {
+          // Pause when out of view to save bandwidth
+          video.pause();
+        }
+      },
+      { rootMargin: "200px" }, // Start loading 200px before visible
+    );
+
+    observer.observe(card);
+    return () => observer.disconnect();
+  }, []);
+
+  // Derive source paths — support both "videos/feature-1.webm" (legacy) and "videos/feature-1" (new base path)
+  const baseSrc = src.replace(/\.(webm|mp4)$/, "");
+
   return (
-    <div className="relative w-full h-full">
+    <div ref={cardRef} className="relative w-full h-full">
       <video
         ref={videoRef}
-        src={src}
+        poster={poster}
         loop
         muted
-        autoPlay
+        playsInline
         disablePictureInPicture
         preload="none"
         className="absolute left-0 top-0 w-full h-full object-cover object-center"
-      />
+      >
+        <source src={`${baseSrc}.webm`} type="video/webm" />
+        <source src={`${baseSrc}.mp4`} type="video/mp4" />
+      </video>
       <div className="relative z-10 flex w-full h-full flex-col justify-between p-5 text-blue-50">
         <div>
           <h1 className="bento-title special-font">{title}</h1>

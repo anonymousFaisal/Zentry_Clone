@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, useCallback } from "react";
 import Button from "@/components/ui/Button";
 import { TiLocationArrow } from "react-icons/ti";
 import { VideoPreview } from "@/components/ui/VideoPreview";
@@ -23,56 +23,52 @@ const Hero = () => {
     setCurrentIndex((prevIndex) => (prevIndex % totalVideos) + 1);
   };
 
-  const waitForVideoReady = (video: HTMLVideoElement | null, timeoutMs = 10000) => {
-    return new Promise<void>((resolve) => {
-      // readyState 2 = HAVE_CURRENT_DATA (first frame)
-      if (!video || video.readyState >= 2) {
-        resolve();
-        return;
-      }
+  // Poster images load instantly (~50-100KB each), providing immediate visual content
+  const getPosterSrc = (index: number) => `/img/posters/hero-${index}.webp`;
+  const getVideoSrc = (index: number) => `/videos/hero-${index}`;
 
-      let finished = false;
-      const done = () => {
-        if (finished) return;
-        finished = true;
-        cleanup();
-        resolve();
-      };
-
-      const onLoadedData = () => done();
-      const onCanPlay = () => done();
-      const onError = () => done();
-
-      video.addEventListener("loadeddata", onLoadedData);
-      video.addEventListener("canplay", onCanPlay);
-      video.addEventListener("error", onError);
-
-      const timer = setTimeout(() => done(), timeoutMs);
-
-      const cleanup = () => {
-        clearTimeout(timer);
-        video.removeEventListener("loadeddata", onLoadedData);
-        video.removeEventListener("canplay", onCanPlay);
-        video.removeEventListener("error", onError);
-      };
-    });
-  };
-
+  /**
+   * Progressive loading strategy:
+   * 1. Poster image loads instantly (< 100KB) → user sees content immediately
+   * 2. Loader dismisses after poster + minimal delay (no waiting for full video)
+   * 3. Video streams in background → seamlessly replaces poster when ready
+   */
   useEffect(() => {
     let cancelled = false;
 
-    const streamVideo = async () => {
-      try {
-        await waitForVideoReady(currentVideoRef.current);
-      } finally {
-        if (!cancelled) setLoading(false);
-      }
+    // Preload the poster image so the browser caches it before the loader dismisses
+    const posterImg = new Image();
+    posterImg.src = getPosterSrc(currentIndex === totalVideos - 1 ? 1 : currentIndex);
+
+    const dismiss = () => {
+      if (!cancelled) setLoading(false);
     };
 
-    streamVideo();
+    // If poster loads quickly (expected), dismiss after a brief reveal animation delay
+    // If poster is slow, dismiss after a max of 3 seconds regardless
+    posterImg.onload = () => setTimeout(dismiss, 800);
+    posterImg.onerror = () => setTimeout(dismiss, 800);
+    const maxTimer = setTimeout(dismiss, 3000);
+
+    // Meanwhile, kick off video playback in the background
+    const video = currentVideoRef.current;
+    if (video) {
+      const onCanPlay = () => {
+        const p = video.play();
+        if (p && typeof p.catch === "function") p.catch(() => {});
+      };
+      video.addEventListener("canplay", onCanPlay, { once: true });
+
+      return () => {
+        cancelled = true;
+        clearTimeout(maxTimer);
+        video.removeEventListener("canplay", onCanPlay);
+      };
+    }
 
     return () => {
       cancelled = true;
+      clearTimeout(maxTimer);
     };
   }, [currentIndex]);
 
@@ -82,8 +78,6 @@ const Hero = () => {
     nextVideoRef,
     isLoaded: !loading,
   });
-
-  const getVideoSrc = (index: number) => `/videos/hero-${index}`;
 
   return (
     <div id="home" className="relative h-dvh w-screen overflow-x-hidden">
@@ -98,10 +92,10 @@ const Hero = () => {
                 onClick={handleMiniVideoClick}
                 className="origin-center scale-50 opacity-0 transition-all duration-500 ease-in hover:scale-100 hover:opacity-100"
               >
-                {/* mini video */}
+                {/* mini video — preload metadata only, poster for instant visual */}
                 <video
                   ref={miniVideoRef}
-                  src={`${getVideoSrc((currentIndex % totalVideos) + 1)}.webm`}
+                  poster={getPosterSrc((currentIndex % totalVideos) + 1)}
                   loop
                   muted
                   playsInline
@@ -109,7 +103,10 @@ const Hero = () => {
                   disablePictureInPicture
                   id="mini-video"
                   className="size-64 origin-center scale-150 object-cover object-center"
-                />
+                >
+                  <source src={`${getVideoSrc((currentIndex % totalVideos) + 1)}.webm`} type="video/webm" />
+                  <source src={`${getVideoSrc((currentIndex % totalVideos) + 1)}.mp4`} type="video/mp4" />
+                </video>
               </div>
             </VideoPreview>
           </div>
@@ -117,7 +114,7 @@ const Hero = () => {
           {/* next video */}
           <video
             ref={nextVideoRef}
-            src={`${getVideoSrc(currentIndex)}.webm`}
+            poster={getPosterSrc(currentIndex)}
             loop
             muted
             playsInline
@@ -125,21 +122,27 @@ const Hero = () => {
             disablePictureInPicture
             id="next-video"
             className="absolute-center invisible absolute z-20 size-64 object-cover object-center"
-          />
+          >
+            <source src={`${getVideoSrc(currentIndex)}.webm`} type="video/webm" />
+            <source src={`${getVideoSrc(currentIndex)}.mp4`} type="video/mp4" />
+          </video>
 
-          {/* main/background video */}
+          {/* main/background video — poster is the instant visual bridge */}
           <video
             ref={currentVideoRef}
-            src={`${getVideoSrc(currentIndex === totalVideos - 1 ? 1 : currentIndex)}.webm`}
+            poster={getPosterSrc(currentIndex === totalVideos - 1 ? 1 : currentIndex)}
             autoPlay
             loop
             muted
             playsInline
-            preload="auto"
+            preload="metadata"
             disablePictureInPicture
             id="main-video"
             className="absolute left-0 top-0 size-full object-cover object-center"
-          />
+          >
+            <source src={`${getVideoSrc(currentIndex === totalVideos - 1 ? 1 : currentIndex)}.webm`} type="video/webm" />
+            <source src={`${getVideoSrc(currentIndex === totalVideos - 1 ? 1 : currentIndex)}.mp4`} type="video/mp4" />
+          </video>
         </div>
 
         {/* Overflow wrappers prevent the GSAP animation from expanding the document height */}
