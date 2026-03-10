@@ -75,7 +75,7 @@ const Story: FC = () => {
                   src="/img/entrance.webp"
                   alt="entrance"
                   fill
-                  sizes="100vw"
+                  sizes="(max-width: 768px) 90vw, 60vw"
                   className="object-contain"
                 />
               </div>

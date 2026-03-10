@@ -23,7 +23,14 @@ const About = () => {
       </div>
       <div className="h-dvh w-screen" id="clip">
         <div className="mask-clip-path about-image will-change-[clip-path_border-radius_width_height] translate-z-0">
-          <Image src="/img/about.webp" alt="Background" fill priority sizes="100vw" className="absolute left-0 top-0 object-cover" />
+          <Image
+            src="/img/about.webp"
+            alt="Background"
+            fill
+            priority
+            sizes="(max-width: 768px) 100vw, 80vw"
+            className="absolute left-0 top-0 object-cover"
+          />
         </div>
       </div>
     </div>
