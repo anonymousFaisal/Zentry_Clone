@@ -1,3 +1,5 @@
+"use client";
+
 import { useState, useRef, type FC, type ReactNode, type MouseEvent } from "react";
 import { TiLocationArrow } from "react-icons/ti";
 

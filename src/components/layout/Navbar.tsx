@@ -25,10 +25,7 @@ const NavBar: FC = () => {
   const [lastScrollY, setLastScrollY] = useState(0);
 
   const toggleAudioIndicator = () => {
-    if (!audioElementRef.current) {
-      console.log("Audio ref not found");
-      return;
-    }
+    if (!audioElementRef.current) return;
 
     if (!isAudioPlaying) {
       audioElementRef.current.play().catch((err) => {
@@ -112,7 +109,7 @@ const NavBar: FC = () => {
             </div>
 
             <button onClick={toggleAudioIndicator} className="ml-10 flex items-center space-x-0.5" aria-label="Toggle audio">
-              <audio ref={audioElementRef} className="hidden" src="/audio/loop.mp3" loop preload="auto" />
+              <audio ref={audioElementRef} className="hidden" src="/audio/loop.mp3" loop preload="metadata" />
               {[1, 2, 3, 4].map((bar) => (
                 <div
                   key={bar}

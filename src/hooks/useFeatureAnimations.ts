@@ -36,19 +36,6 @@ export const useFeatureAnimations = ({ videoRef }: UseFeatureAnimationsProps) =>
 
   // 2. GSAP staggered reveal for bento cards and intro text
   useGSAP(() => {
-    // Fade-up for the intro paragraph
-    gsap.from(".feature-subtext", {
-      y: 50,
-      opacity: 0,
-      duration: 1,
-      ease: "power3.out",
-      scrollTrigger: {
-        trigger: "#features",
-        start: "top 80%",
-        toggleActions: "play none none reverse",
-      },
-    });
-
     // Staggered reveal for all bento cards
     gsap.from(".bento-card-reveal", {
       y: 100,
