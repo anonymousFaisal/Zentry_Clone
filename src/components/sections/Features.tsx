@@ -2,49 +2,27 @@
 
 import { type FC, useRef, useEffect } from "react";
 import { TiLocationArrow } from "react-icons/ti";
-import BentoTilt from "./Bento/BentoTilt";
-import BentoCard from "./Bento/BentoCard";
-import EncryptionText from "./EncryptionText";
+import BentoTilt from "@/components/ui/Bento/BentoTilt";
+import BentoCard from "@/components/ui/Bento/BentoCard";
+import AnimatedTitle from "@/components/ui/AnimatedTitle";
+import { useFeatureAnimations } from "@/hooks/useFeatureAnimations";
 
 const Features: FC = () => {
   const videoRef = useRef<HTMLVideoElement | null>(null);
 
-  useEffect(() => {
-    const video = videoRef.current;
-    if (!video) return;
-
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            video.play().catch((err) => console.error("Feature video play failed", err));
-          } else {
-            video.pause();
-          }
-        });
-      },
-      { threshold: 0.5 }
-    );
-
-    observer.observe(video);
-
-    return () => observer.unobserve(video);
-  }, []);
+  useFeatureAnimations({ videoRef });
 
   return (
     <section id="features" className="bg-black pb-52">
       <div className="container mx-auto px-3 md:px-10">
         <div className="px-5 py-32">
-          <EncryptionText text="Into the Metagame Layer" className="font-circular-web text-lg text-blue-50 text-center md:text-left md:text-2xl" />
-          <p className="md:max-w-md font-circular-web text-lg text-blue-50 opacity-50 text-center md:text-left md:text-xl">
-            Immerse yourself in a rich and ever-expanding universe where a vibrant array of products converge into an interconnected overlay
-            experience on your world.
-          </p>
+          <AnimatedTitle title="Int<b>o</b> the <br /> Metagame Layer" containerClass="!text-blue-50 !bg-transparent md:!text-left !px-0 !sm:px-0" />
+          
         </div>
 
-        <BentoTilt className="border-hsla relative mb-7 h-96 w-full overflow-hidden rounded-md md:h-[65vh]">
+        <BentoTilt className="border-hsla bento-card-reveal relative mb-7 h-96 w-full overflow-hidden rounded-md md:h-[65vh]">
           <BentoCard
-            src="videos/feature-1.mp4"
+            src="videos/feature-1.webm"
             title={
               <>
                 radia<b>n</b>t
@@ -56,9 +34,9 @@ const Features: FC = () => {
         </BentoTilt>
 
         <div className="grid h-[135vh] w-full grid-cols-2 grid-rows-3 gap-7">
-          <BentoTilt className="bento-tilt_1 row-span-1 md:col-span-1 md:row-span-2">
+          <BentoTilt className="bento-tilt_1 bento-card-reveal row-span-1 md:col-span-1 md:row-span-2">
             <BentoCard
-              src="videos/feature-2.mp4"
+              src="videos/feature-2.webm"
               title={
                 <>
                   zig<b>m</b>a
@@ -69,9 +47,9 @@ const Features: FC = () => {
             />
           </BentoTilt>
 
-          <BentoTilt className="bento-tilt_1 row-span-1 ms-32 md:col-span-1 md:ms-0">
+          <BentoTilt className="bento-tilt_1 bento-card-reveal row-span-1 ms-32 md:col-span-1 md:ms-0">
             <BentoCard
-              src="videos/feature-3.mp4"
+              src="videos/feature-3.webm"
               title={
                 <>
                   n<b>e</b>xus
@@ -82,9 +60,9 @@ const Features: FC = () => {
             />
           </BentoTilt>
 
-          <BentoTilt className="bento-tilt_1 me-14 md:col-span-1 md:me-0">
+          <BentoTilt className="bento-tilt_1 bento-card-reveal me-14 md:col-span-1 md:me-0">
             <BentoCard
-              src="videos/feature-4.mp4"
+              src="videos/feature-4.webm"
               title={
                 <>
                   az<b>u</b>l
@@ -95,7 +73,7 @@ const Features: FC = () => {
             />
           </BentoTilt>
 
-          <BentoTilt className="bento-tilt_2">
+          <BentoTilt className="bento-tilt_2 bento-card-reveal">
             <div className="flex w-full h-full flex-col justify-between bg-violet-300 p-5">
               <h1 className="bento-title special-font max-w-64 text-blue-50">
                 M<b>o</b>re co<b>m</b>ing s<b>o</b>on.
@@ -105,8 +83,17 @@ const Features: FC = () => {
             </div>
           </BentoTilt>
 
-          <BentoTilt className="bento-tilt_2">
-            <video ref={videoRef} src="videos/feature-5.mp4" loop muted playsInline className="w-full h-full object-cover object-center" />
+          <BentoTilt className="bento-tilt_2 bento-card-reveal">
+            <video
+              ref={videoRef}
+              src="videos/feature-5.webm"
+              loop
+              muted
+              playsInline
+              disablePictureInPicture
+              preload="none"
+              className="w-full h-full object-cover object-center"
+            />
           </BentoTilt>
         </div>
       </div>

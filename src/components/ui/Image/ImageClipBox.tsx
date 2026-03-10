@@ -11,7 +11,7 @@ interface ImageClipBoxProps {
 
 const ImageClipBox: FC<ImageClipBoxProps> = ({ src, alt = "", clipClass = "" }) => (
   <div className={`${clipClass} relative w-full h-full`}>
-    <Image src={src} alt={alt} fill sizes="100vw" />
+    <Image src={src} alt={alt} fill sizes="(max-width: 768px) 50vw, 400px" />
   </div>
 );
 

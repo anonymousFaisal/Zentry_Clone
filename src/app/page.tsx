@@ -1,10 +1,10 @@
-import Hero from "@/components/Hero";
-import About from "./../components/About";
-import Navbar from "./../components/Navbar";
-import Features from "./../components/Features";
-import Story from "./../components/Story";
-import Contact from "./../components/Contact";
-import Footer from "./../components/Footer";
+import Hero from "@/components/sections/Hero";
+import About from "@/components/sections/About";
+import Navbar from "@/components/layout/Navbar";
+import Features from "@/components/sections/Features";
+import Story from "@/components/sections/Story";
+import Contact from "@/components/sections/Contact";
+import Footer from "@/components/layout/Footer";
 
 export default function Page() {
   return (

@@ -1,3 +1,5 @@
+"use client";
+
 import { useState, useRef, type FC, type ReactNode, type MouseEvent } from "react";
 import { TiLocationArrow } from "react-icons/ti";
 
@@ -28,7 +30,16 @@ const BentoCard: FC<BentoCardProps> = ({ src, title, description, isComingSoon }
 
   return (
     <div className="relative w-full h-full">
-      <video ref={videoRef} src={src} loop muted autoPlay className="absolute left-0 top-0 w-full h-full object-cover object-center" />
+      <video
+        ref={videoRef}
+        src={src}
+        loop
+        muted
+        autoPlay
+        disablePictureInPicture
+        preload="none"
+        className="absolute left-0 top-0 w-full h-full object-cover object-center"
+      />
       <div className="relative z-10 flex w-full h-full flex-col justify-between p-5 text-blue-50">
         <div>
           <h1 className="bento-title special-font">{title}</h1>

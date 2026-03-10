@@ -32,9 +32,9 @@ const AnimatedTitle: FC<AnimatedTitleProps> = ({ title, containerClass }) => {
           opacity: 1,
           transform: "translate3d(0, 0, 0) rotateY(0deg) rotateX(0deg)",
           ease: "power2.inOut",
-          stagger: 0.05,
+          stagger: 0.1,
         },
-        0
+        0,
       );
     }, containerRef);
 
@@ -45,9 +45,12 @@ const AnimatedTitle: FC<AnimatedTitleProps> = ({ title, containerClass }) => {
     <div ref={containerRef} className={clsx("animated-title", containerClass)}>
       {title.split("<br />").map((line, index) => (
         <div key={index} className="flex-center max-w-full flex-wrap gap-2 px-10 md:gap-3">
-          {line.split(" ").map((word, idx) => (
-            <span key={idx} className="animated-word" dangerouslySetInnerHTML={{ __html: word }} />
-          ))}
+          {line
+            .split(" ")
+            .filter((word) => word !== "")
+            .map((word, idx) => (
+              <span key={idx} className="animated-word" dangerouslySetInnerHTML={{ __html: word }} />
+            ))}
         </div>
       ))}
     </div>
